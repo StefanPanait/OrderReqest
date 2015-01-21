@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="pull-right">
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCategory">Add Category</button>
+    </div>
+    <div class="col-xs-12">
+        <h3><b>Categories</b>
+        </h3>
+        <ul>
+            {{#each category}}
+            <li>
+                <span id="categoryName">{{name}}</span>
+                <a id="{{_id}}" href="#" class="editCategory" data-toggle="modal" data-target="#editCategory">
+                    <i class="fa fa-pencil-square-o"></i>
+                </a><a id="{{_id}}" href="#" class="removeCategory" data-toggle="modal" data-target="#removeCategory"><i class="fa fa-trash-o"></i></a>
+
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</div>
+<form action="/manage/shopping/categories" method="post">
+    <div class="modal fade" id="removeCategory" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="text-right">
+                        <input type="text" name="id" class="categoryID hidden">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="/category/edit" method="post">
+    <div class="modal fade" id="editCategory" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Category</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control categoryName" name="category" placeholder="Electronics, Office Supplies, etc" required>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-right">
+                        <input type="text" name="id" class="categoryID hidden">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="/category/add" method="post">
+    <div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Category</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" name="category" placeholder="Electronics, Office Supplies, etc" required>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<input id="_id" name="id" class="hidden">

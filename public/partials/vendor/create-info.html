@@ -1,0 +1,48 @@
+<form name="createVdrInfoForm" class="form-horizontal" novalidate>
+    <!-- modal content -->
+    <div class="modal-content">
+        <!-- modal header -->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">Create Vendor - Vendor Info</h4>
+        </div>
+
+        <!-- modal body -->
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name *</label>
+                <div class="col-sm-10" ng-class="{ 'has-error' : createVdrInfoForm.name.$invalid && formSubmitted }">
+                    <input type="text" name="name" class="form-control" placeholder="Vendor Name" ng-model="selectedVendor.name" required>
+                    <p ng-show="createVdrInfoForm.name.$invalid && formSubmitted" class="help-block">Please enter a name.</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10" ng-class="{ 'has-error' : createVdrInfoForm.address.$invalid && formSubmitted }">
+                    <input type="text" name="address" class="form-control" placeholder="Vendor Address" ng-model="selectedVendor.address">
+                    <p ng-show="createVdrInfoForm.address.$invalid && formSubmitted" class="help-block">Please enter an address.</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-4" ng-class="{ 'has-error' : createVdrInfoForm.email.$invalid && formSubmitted }">
+                    <input type="email" name="email" class="form-control" placeholder="Vendor Email" ng-model="selectedVendor.email">
+                    <p ng-show="createVdrInfoForm.email.$invalid && formSubmitted" class="help-block">Please enter an valid email address.</p>
+                </div>
+                <label class="col-sm-2 control-label">Phone #</label>
+                <div class="col-sm-4" ng-class="{ 'has-error' : createVdrInfoForm.phone.$invalid && formSubmitted }">
+                    <input type="text" name="phone" class="form-control" placeholder="Vendor Phone Number" ng-model="selectedVendor.phone">
+                    <p ng-show="createVdrInfoForm.phone.$invalid && formSubmitted" class="help-block">Please enter an valid phone number.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal footer -->
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="submitForm(createVdrInfoForm.$valid)">Next</button>
+        </div>
+    </div>
+</form>

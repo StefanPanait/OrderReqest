@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-xs-12">{{#if msg}}
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{msg}}
+        </div>
+        {{/if}} {{#if errMsg}}
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{errMsg}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="page-header">
+        <h2><b>
+    {{#if user.firstName}}
+   	 {{user.firstName}} {{user.lastName}}
+   	{{else}}
+   	John Appleseed
+   	{{/if}}
+    </b>
+            <a href="/user/profile/edit">
+                <small>(edit)</small>
+            </a>
+        </h2>
+        <h4>
+            {{user.username}}
+        </h4>
+    </div>
+    <b>Personal Information</b>
+    <div class="row">
+        <div class="col-xs-12">Work: {{#if user.profile.work_phone}} {{user.profile.work_phone}} {{else}} (empty) {{/if}}
+        </div>
+        <div class="col-xs-12">Cell: {{#if user.profile.cell_phone}} {{user.profile.cell_phone}} {{else}} (empty) {{/if}}
+        </div>
+        <div class="col-xs-12">Address: {{#if user.profile.address}} {{user.profile.address}} {{else}} (empty) {{/if}}
+        </div>
+    </div>

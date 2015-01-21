@@ -1,0 +1,73 @@
+2/6/2014
+
+Order Request: Discussion Topics:
+
+●	Company wanted external servers
+●	Keep Developing
+●	Meeting Date? roughly mid july 
+●	Used mainly for new hires - laptops etc 
+
+Know and understand current tech stack and be ready to discuss potential changes:
+
+What we are using/ Going to use?
+Web vs. App Versions.
+
+●	local mobile app, draw data from local server
+●	Casper JS/ Phantom
+●	Nodejs/ Swagger
+●	Nodemailer
+●	PassportJS: Encryption 
+●	/admin = client
+●	/admin/super = us
+●	handlebars
+
+http://mixdatup.com:3000/
+
+App Goals: User login 
+
+Framework:
+
+●	MongooseDB
+
+
+Know and understand current app flow and be ready to discuss:
+
+●	First Thing is TOA right after DL to accept/ Deny 
+
+●	Feedback/ Error Reports
+
+
+
+*Print Button 
+
+For managers, view history:
+
+●	Date Ticket Submitted/ Be able to sort monthly/ Quarterly/ Yearly
+●	Approved by Who/ For Who/ Which Department (for department budgeting, remaining budget option)
+●	Order Amount/ Currency indication Tab 
+●	Priority Status: Immidately (for low inventory), Low ) Misc items Replace old Chair ***
+●	ETA?
+●	Payment Method: Visa/ Mastercard/ etc 
+●	CC Number/ Expiry Date
+●	Edit Ticket?
+●	Print off/ Show Data neatly
+
+Notifications
+●	Overdue Notice
+●	First Notice
+●	Amount Greater than **
+●	Reminder 
+
+Contact information listed for purchases ***
+Reoccuring Purchases *** ask robin
+
+
+SEACH BUTTON *** previous orders etc
+
+
+
+Next Meeting:
+
+Mobile app: skeleton done, so we can build it
+
+Database: Roles; admin → user → guest -- Etc

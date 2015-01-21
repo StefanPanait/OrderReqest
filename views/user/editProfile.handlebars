@@ -1,0 +1,23 @@
+<div class="page-header">
+    <h2><b>Edit Profile</b>
+    </h2>
+</div>
+<form action="/user/profile" method="POST">
+    <div class="row">
+        <div class="col-md-4 col-xs-8">
+            <input type="text" name="firstName" placeholder="John" class="form-control" value="{{user.firstName}}">
+            <input type="text" name="lastName" placeholder="Appleseed" class="sm-buffer form-control" value="{{user.lastName}}">
+            <h4><b>Contact Information</b>
+            </h4>
+            <input type="text" name="address" placeholder="600-101 Frederick Street Kitchener, ON N2H 6R2" class="sm-buffer form-control" value="{{user.profile.address}}">
+            <input type="text" name="cell_phone" placeholder="Cell Phone" class="sm-buffer form-control" value="{{user.profile.cell_phone}}">
+            <input type="text" name="work_phone" placeholder="Work Phone" class="sm-buffer form-control" value="{{user.profile.work_phone}}">
+        </div>
+    </div>
+    <div class="row sm-buffer">
+        <div class="col-md-4 col-xs-8 text-right">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+
+</form>

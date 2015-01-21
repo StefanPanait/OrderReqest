@@ -1,0 +1,162 @@
+<div class="manager-vendors" ng-app="orderRequest">
+    <div ng-controller="VendorsCtrl">
+        <div class="navbar navbar-default" role="navigation">
+            <!-- Navbar header -->
+            <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['main-notification']"></div>
+            <div class="navbar-header">
+                <div href="" class="navbar-brand">Vendors</div>
+                <button type="button" class="btn btn-default navbar-toggle" data-toggle="modal" ng-click="displayCreateVendorModal()">
+                    <span class="fa fa-plus"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <div class="navbar-form navbar-left">
+                    <button type="button" class="btn btn-default" data-toggle="modal" ng-click="displayCreateVendorModal()">
+                        <span class="fa fa-plus"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel -->
+        <div class="panel panel-default">
+            <!-- Vendor table -->
+            <div ng-repeat="name in ['main']" ng-include src="'/partials/tableView/table.html'"></div>
+        </div>
+
+        <!-- Modal create form -->
+        <div id="vendor-create-form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <!-- modal notificaiton -->
+                <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['modal-notification']"></div>
+                <!-- partial -->
+                <div ng-include src="formBodyLocations[currentPage]"></div>
+            </div>
+        </div>
+
+        <!-- Modal edit form -->
+        <div id="vendor-edit-form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal notificaiton -->
+                <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['modal-notification']"></div>
+
+                <!-- Modal content -->
+                <div class="modal-content">
+
+                    <!-- Modal header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Vendor</h4>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <!-- Tab nav -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#vendorInfo" role="tab" data-toggle="tab">Info</a>
+                            </li>
+                            <li><a href="#vendorContacts" role="tab" data-toggle="tab">Contacts</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="vendorInfo">
+                                <form name="editVdrInfoForm" class="form-horizontal" novalidate>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Name *</label>
+                                        <div class="col-sm-10" ng-class="{ 'has-error' : editVdrInfoForm.name.$invalid && formSubmitted }">
+                                            <input type="text" name="name" class="form-control" placeholder="Vendor Name" ng-model="selectedVendor.name" required>
+                                            <p ng-show="editVdrInfoForm.name.$invalid && formSubmitted" class="help-block">Please enter a name.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputAddress" placeholder="Address" ng-model="selectedVendor.address">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Email" ng-model="selectedVendor.email">
+                                        </div>
+                                        <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone #</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputPhoneNumber" placeholder="Phone Number" ng-model="selectedVendor.phone">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="vendorContacts">
+                                <form name="editVdrContactForm" class="form-horizontal" novalidate>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Name *</label>
+                                        <div class="col-sm-4" ng-class="{ 'has-error' : editVdrContactForm.name.$invalid && formSubmitted }">
+                                            <input type="text" name="name" class="form-control" placeholder="Contact Name" ng-model="selectedContact.name" required>
+                                            <p ng-show="editVdrContactForm.name.$invalid && formSubmitted" class="help-block">Name is required.</p>
+                                        </div>
+                                        <label class="col-sm-1 control-label">Position</label>
+                                        <div class="col-sm-5" ng-class="{ 'has-error' : editVdrContactForm.position.$invalid && formSubmitted }">
+                                            <input type="text" name="position" class="form-control" placeholder="Position" ng-model="selectedContact.position">
+                                            <p ng-show="editVdrContactForm.position.$invalid && formSubmitted" class="help-block">Position is required.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Email *</label>
+                                        <div class="col-sm-4" ng-class="{ 'has-error' : editVdrContactForm.email.$invalid && formSubmitted }">
+                                            <input type="email" name="email" class="form-control" placeholder="Email" ng-model="selectedContact.email" required>
+                                            <p ng-show="editVdrContactForm.email.$invalid && formSubmitted" class="help-block">Please enter a valid email address.</p>
+                                        </div>
+                                        <label class="col-sm-1 control-label">Phone</label>
+                                        <div class="col-sm-5" ng-class="{ 'has-error' : editVdrContactForm.phone.$invalid && formSubmitted }">
+                                            <input type="text" name="phone" class="form-control" placeholder="Phone Number" ng-model="selectedContact.phone">
+                                            <p ng-show="editVdrContactForm.phone.$invalid && formSubmitted" class="help-block">Please enter a valid phone number.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Additional Note</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" placeholder="Additional Note" ng-model="selectedContact.description"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button class="btn btn-danger btn-md" ng-click="removeSelectedContact()" ng-show="states.editingContact">Remove</button>
+                                            <button class="btn btn-primary btn-md" ng-click="cancelSelectedContact()" ng-show="states.editingContact">Cancel</button>
+                                            <button class="btn btn-primary btn-md" ng-click="addSelectedContact(editVdrContactForm.$valid)" ng-show="!states.editingContact">Add</button>
+                                            <button class="btn btn-primary btn-md" ng-click="saveSelectedContact()" ng-show="states.editingContact">Save</button>
+                                        </div>
+                                    </div>
+                                    <hr ng-show="selectedVendor.contacts.length > 0">
+                                    <div class="form-group" ng-show="selectedVendor.contacts.length > 0">
+                                        <div ng-repeat="name in ['vendorContacts']" ng-include src="'/partials/tableView/table.html'"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- todo: remove modal-fotter margin top 15px -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="deleteVendor()">Delete</button>
+                        <button type="button" class="btn btn-primary" ng-click="updateVendor()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="/js/angular-main.js"></script>
+<script src="/js/services/TableViewService.js"></script>
+<script src="/js/services/NotificationsService.js"></script>
+<script src="/js/controllers/VendorsCtrl.js"></script>
+
+<script>
+var vendors = "{{vendors}}";
+</script>

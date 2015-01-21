@@ -1,0 +1,8 @@
+<div ng-show="notifications[name].visible" class="alert [[notifications[name].type]] alert-dismissible" role="alert">
+    <button type="button" class="close" ng-click="notifications[name].setVisible(false)">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+    </button>
+    <!-- todo: update alert message -->
+    [[notifications[name].message]]
+</div>

@@ -1,0 +1,195 @@
+<div class="approve-orders" ng-app="orderRequest">
+    <div ng-controller="ViewOrdersCtrl">
+        <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['main-notification']"></div>
+        <div class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="navbar-brand">Orders</div>
+                    <button type="button" data-target="#orderNavbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <!-- todo: panel background color #f5f5f5 -->
+            <div class="panel-heading">
+                <!-- todo: full width for inline-form -->
+                <form class="form-inline" role="form">
+                    <div ng-repeat="name in ['main']" ng-include src="'/partials/tableView/search.html'"></div>
+                </form>
+            </div>
+            <div ng-repeat="name in ['main']" ng-include src="'/partials/tableView/table.html'"></div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="order-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4>Order status - [[selectedOrder.status]]</h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs" role="tablist" style="margin-bottom: 15px;">
+                            <li class="active"><a href="#orderInfo" role="tab" data-toggle="tab">Summary</a>
+                            </li>
+                            <li><a href="#orderItems" role="tab" data-toggle="tab">Requested Items</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="orderInfo">
+                                <form name="checkoutForm" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Date Requested</label>
+                                        <div class="controls">
+                                            <p id="textRequestedDate" class="form-control-static col-sm-10">[[selectedOrder.dateCreated]]</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Issuer Name</label>
+                                        <div class="controls">
+                                            <p class="form-control-static col-sm-10">[[selectedOrder.issuer.firstName]] [[selectedOrder.issuer.lastName]] - [[selectedOrder.issuer.username]]</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Number of Items</label>
+                                        <div class="controls">
+                                            <p class="form-control-static col-sm-4">[[selectedOrder.totalItems]]</p>
+                                        </div>
+                                        <label class="col-sm-2 control-label">Total Price</label>
+                                        <div class="controls">
+                                            <p class="form-control-static col-sm-4">$ [[selectedOrder.totalPrice]]</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Current Workflow</label>
+                                        <div class="controls">
+                                            <p id="textRequestedDate" class="form-control-static col-sm-10">[[selectedOrder.workflow.name]]</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Issuer Note</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static col-sm-10">[[selectedOrder.note]]</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Approver Feedback</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" ng-model="approverFeedBack"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="orderItems">
+                                <form action="" class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="table-responsive">
+                                            <table class="table view-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Item
+                                                        </th>
+                                                        <th>
+                                                            Description
+                                                        </th>
+                                                        <th>
+                                                            Price
+                                                        </th>
+                                                        <th>
+                                                            Quantity
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="cartItem in selectedOrder.items">
+                                                        <td>[[cartItem.name]]</td>
+                                                        <td>[[cartItem.description]]</td>
+                                                        <td>$[[cartItem.price]]</td>
+                                                        <td>[[cartItem.quantity]]</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="updateOrder('rejectOrder')">Reject</button>
+                        <button type="button" class="btn btn-default" ng-click="updateOrder('reassignOrder')">Reassign</button>
+                        <button type="button" class="btn btn-success" ng-click="updateOrder('approveOrder')">Approve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- div ng-app="orderRequest">
+    <div ng-controller="ViewOrdersCtrl">
+        <div>
+            <div ng-include src="'/partials/tableView/header.html'">
+            </div>
+            <div ng-include src="'/partials/tableView/table.html'">
+            </div>
+        </div>
+
+        <div id="configure-columns-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <small>(click to view/hide)</small>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="column in columns" ng-class="{'success':column.visible}">
+                                    <td ng-click="column.visible = !column.visible">
+                                        [[column.display]]
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="/js/lib/angular.min.js"></script>
+    <script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+    <script src="/js/angular-main.js"></script>
+    <script src="/js/services/TableViewService.js"></script>
+    <script src="/js/controllers/ViewOrdersCtrl.js"></script>-->
+
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="/js/angular-main.js"></script>
+<script src="/js/services/TableViewService.js"></script>
+<script src="/js/services/NotificationsService.js"></script>
+<script src="/js/controllers/ViewOrdersCtrl.js"></script>
+
+<script>
+var orders = "{{orders}}";
+</script>

@@ -1,0 +1,47 @@
+<div class="row">
+	{{message}}
+	<div class="col-xs-12">
+	<h3><b>Pending Accounts</b></h3>
+	<ul>
+		{{#each requestAccts}}
+		<li>
+			<a class="requestAcc" id="{{_id}}" href="#" data-toggle="modal" data-target="#myModal">{{email}}</a>
+		</li>
+		{{/each}}
+	</ul>
+	</div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Approve an Account</h4>
+      </div>
+      <div class="modal-body">
+		<p id="email"></p>
+		<p id="notes"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-danger requestAction reject">Reject</button>
+        <button type="button" class="btn btn-success requestAction approve">Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+<input id="_id" name="id" class="hidden">
+<script>
+	var accounts = {
+		{{#each requestAccts}}
+		{{#if @index}},{{/if}}
+		"{{_id}}" :
+			{
+				"id"	: "{{_id}}",
+				"email" : "{{email}}",
+				"note"  : "{{note}}",
+			}
+		{{/each}}
+	};
+	
+</script>

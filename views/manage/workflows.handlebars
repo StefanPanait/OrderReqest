@@ -1,0 +1,154 @@
+<div class="manage-workflows" ng-app="orderRequest">
+    <div ng-controller="WorkflowCtrl">
+        <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['main-notification']"></div>
+        <div class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <div class="navbar-brand">Workflows</div>
+                <button type="button" class="btn btn-default navbar-toggle" ng-click="openCreateWFForm()">
+                    <span class="fa fa-plus"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" id="workflowNavbarCollapse">
+                <div class="navbar-form navbar-left">
+                    <button type="button" class="btn btn-default" data-toggle="modal" ng-click="openCreateWFForm()">
+                        <span class="fa fa-plus"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div ng-repeat="name in ['main']" ng-include src="'/partials/tableView/table.html'"></div>
+        </div>
+
+        <!-- Modal - edit workflow form-->
+        <div class="modal fade" id="workflow-edit-modal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4>Edit Workflow: <b>[[selectedWorkflow.name]]</b>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs" role="tablist" style="margin-bottom: 15px;">
+                            <li class="active"><a href="#infoWF" role="tab" data-toggle="tab">Workflow Info</a>
+                            </li>
+                            <li><a href="#orderWF" role="tab" data-toggle="tab">Approver Order</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="infoWF">
+                                <form action="" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Name" ng-model="selectedWorkflow.name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" id="inputDescription" rows="3" placeholder="Description" ng-model="selectedWorkflow.description"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="orderWF">
+                                <form action="" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="selectSearchBy" class="col-sm-2 control-label">Search</label>
+                                        <div class="col-sm-4">
+                                            <select id="selectSearchBy" ng-model="accountFilterBy" class="form-control">
+                                                <option ng-repeat="column in columnsAcct" ng-show="column.visible" value="[[column.name]]">[[column.display]]</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="selectedAccount" typeahead="account[accountFilterBy] for account in accounts | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onClickSearch($item, $model, $label); selectedAccount='';">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="newApprovers" ng-model="selectedWorkflow.approvers" ng-hide="true" class="form-control" ng-list required>
+                                        <p ng-show="configureWFForm.newApprovers.$invalid && !configureWFForm.newApprovers.$pristine" class="help-block">Name is new workflow required.</p>
+                                        <div class="table-responsive">
+                                            <table class="table view-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Order
+                                                        </th>
+                                                        <th>
+                                                            Last Name
+                                                        </th>
+                                                        <th>
+                                                            First Name
+                                                        </th>
+                                                        <th>
+                                                            Position
+                                                        </th>
+                                                        <th>
+                                                            Title
+                                                        </th>
+                                                        <th>
+                                                            Remove
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="approver in selectedWorkflow.approvers">
+                                                        <td>
+                                                            <select id="selectOrderBy" class="form-control btn btn-sm" ng-model="approver.order">
+                                                                <option ng-repeat="orderNumber in orderNumberOptions">[[orderNumber]]</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>[[approver.account.lastName ]]</td>
+                                                        <td>[[approver.account.firstName ]]</td>
+                                                        <td>[[approver.account.Position ]]</td>
+                                                        <td>[[approver.account.title ]]</td>
+                                                        <td>
+                                                            <button class="btn btn-danger btn-sm" ng-click="onClickRemove(approver.username)">Remove</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="deleteWorkflow()" class="btn btn-danger btn-md" ng-disabled="!selectedWorkflow">Delete</button>
+                        <button type="button" ng-click="updateWorkflow()" class="btn btn-primary btn-md">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal - create workflow form-->
+        <div class="modal fade" id="workflow-create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div ng-include src="formBodyLocations[currentPage]"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="/js/angular-main.js"></script>
+<script src="/js/services/TableViewService.js"></script>
+<script src="/js/services/NotificationsService.js"></script>
+<script src="/js/controllers/WorkflowCtrl.js"></script>
+
+
+<script>
+var workflows = "{{dataWF}}";
+var accounts = "{{dataAcct}}";
+</script>

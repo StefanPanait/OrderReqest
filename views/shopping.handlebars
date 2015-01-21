@@ -1,0 +1,206 @@
+<div ng-app="orderRequest" ng-controller="ShoppingCtrl">
+    <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['main-notification']"></div>
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="navbar-brand">Shopping Cart</div>
+                <!--                 <div class="btn-group navbar-toggle" data-toggle="collapse">
+                    <a class="btn btn-default" href="/cart">Checkout ([[cart.length]])</a>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-repeat="cartItem in cart" ng-show="cart.length > 0">
+                            <a href="#">[[cartItem.name]]</a>
+                        </li>
+                        <li ng-show="!(cart.length > 0)">
+                            <p>Your Shopping Cart is empty.</p>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">View All Cart Items ([[cart.length]])</a>
+                        </li>
+                    </ul>
+                </div> -->
+            </div>
+            <div class="collapse navbar-collapse" id="CartNavbarCollapse">
+                <div class="navbar-form navbar-right">
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="" data-toggle="modal" ng-click="showCheckoutModal()">Checkout ([[cart.length]])</a>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation" ng-repeat="cartItem in cart | limitTo:4" ng-show="cart.length > 0">
+                                <a href="#">[[cartItem.name]]([[cartItem.quantity]])</a>
+                            </li>
+                            <li ng-show="!(cart.length > 0)">
+                                <p>Your Shopping Cart is empty.</p>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">View All Cart Items ([[cart.length]])</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="inputSelectCategory" class="col-sm-1 control-label">Browse</label>
+            <div class="col-sm-5">
+                <select ng-model="selectedCategory" class="form-control" id="inputSelectCategory">
+                    <option selected="selected" ng-repeat=" category in categories">[[category.name]]</option>
+                </select>
+            </div>
+
+            <label for="inputSelectOrderBy" class="col-sm-1 control-label">Sort</label>
+            <div class="col-sm-5">
+                <select ng-model="orderBy" class="form-control" id="inputSelectOrderBy">
+                    <option value="item.dateAdded">Date</option>
+                    <option value="price">Price</option>
+                    <option>Popularity</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputSearch" class="col-sm-1 control-label">Search</label>
+            <div class="col-sm-11">
+                <input type="search" ng-model="filter" placeholder="Search" class="form-control" id="inputSearch">
+            </div>
+        </div>
+    </form>
+    <!-- ITEM CARDS -->
+    <div>
+        <div class="row">
+            <div ng-repeat="item in items | orderBy:orderBy | filter:filter" class="col-md-4" ng-show="item.category === selectedCategory">
+                <div class="thumbnail">
+                    <div>
+                        <img src="[[item.pictures[0] ]]" class="img-responsive center-block">
+                    </div>
+                    <div class="caption">
+                        <h3>[[item.name]]</h3>
+                        <p>[[item.description]]</p>
+                        <p>$[[item.price]]</p>
+                        <p>
+                            <input type="number" ng-model="item.quantity" ng-init="item.quantity=0" value="item.quantity" disabled>
+                            <button class="btn btn-default btn-sm" ng-click="decreaseItemCount(item)" ng-init="item.decreaseDisabled = true" ng-disabled="item.decreaseDisabled">
+                                <span class="fa fa-minus"></span>
+                            </button>
+                            <button class="btn btn-default btn-sm" ng-click="increaseItemCount(item)">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </p>
+                        <!-- <button class="btn btn-primary addCart" id="[[item.id]]">Add</button> -->
+
+                        <!-- <button class="btn btn-primary" ng-click="addItemToCart(item)">Add</button> -->
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Checkout Modal -->
+    <div class="modal fade" id="checkout-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4>Create Order</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" role="tablist" style="margin-bottom: 15px;">
+                        <li class="active"><a href="#orderInfo" role="tab" data-toggle="tab">Order Info</a>
+                        </li>
+                        <li><a href="#orderItems" role="tab" data-toggle="tab">List of Items</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="orderInfo">
+                            <form name="checkoutForm" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Workflow</label>
+                                    <div class="col-sm-10" ng-class="{ 'has-error' : checkoutForm.workflow.$invalid && states.formSubmitted }">
+                                        <select class="form-control" id="dropdownCategory" name="workflow" ng-model="order.workflowId" required>
+                                            <option ng-repeat="workflow in workflows" value="[[workflow._id]]">[[workflow.name]]</option>
+                                        </select>
+                                        <p ng-show="checkoutForm.workflow.$invalid && states.formSubmitted" class="help-block">Please select a workflow.</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Additional Note</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" placeholder="Additional Note" ng-model="order.note"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="orderItems">
+                            <form action="" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="table-responsive">
+                                        <table class="table view-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Item
+                                                    </th>
+                                                    <th>
+                                                        Description
+                                                    </th>
+                                                    <th>
+                                                        Price
+                                                    </th>
+                                                    <th>
+                                                        Quantity
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="cartItem in cart">
+                                                    <td>[[cartItem.name]]</td>
+                                                    <td>[[cartItem.description]]</td>
+                                                    <td>[[cartItem.price]]</td>
+                                                    <td>[[cartItem.quantity]]</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="disarcCart()">Discard</button>
+                    <button type="button" class="btn btn-success" ng-click="createOrder(checkoutForm.$valid)">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="/js/angular-main.js"></script>
+<script src="/js/services/NotificationsService.js"></script>
+<script src="/js/services/TableViewService.js"></script>
+<script src="/js/controllers/ShoppingCtrl.js"></script>
+
+<script>
+var items = "{{items}}";
+var categories = "{{categories}}";
+var workflows = "{{workflows}}";
+</script>

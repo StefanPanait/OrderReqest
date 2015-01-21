@@ -1,0 +1,9 @@
+<div class="form-group">
+    <select ng-click="tableView[name].updateFilterObject()" ng-model="tableView[name].filterBy" class="form-control">
+        <option value="">All</option>
+        <option ng-repeat="column in tableView[name].columns" ng-show="column.visible" value="[[column.name]]">[[column.display]]</option>
+    </select>
+</div>
+<div class="form-group">
+    <input ng-change="tableView[name].updateFilterObject()" type="search" ng-model="tableView[name].filterText" class="form-control" id="filterText" placeholder="Search">
+</div>

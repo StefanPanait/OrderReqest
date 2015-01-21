@@ -1,0 +1,21 @@
+<form action="" method="post">
+	jacky plz
+	{{{item}}}
+	<ul>
+	{{#each item}}
+		<li>{{id}} - {{name}} - {{price}}</li>
+	{{/each}}
+	</ul>
+	{{#subtotal}}
+		Subtotal : ${{subtotal}}
+	{{/subtotal}}
+	{{#taxes}}
+		Taxes	 : ${{taxes}}
+	{{/taxes}}
+	{{#total}}
+		Total 	 : ${{total}}
+	{{/total}}
+	
+	<button class="btn btn-primary">Proceed</button>
+	<button class="btn btn-danger">Go Back</button>
+</form>

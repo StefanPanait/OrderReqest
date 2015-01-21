@@ -1,0 +1,13 @@
+<div class"row">
+	<div class="col-xs-12">
+	{{#each item}}
+		{{name}}
+		<div class="pull-right"><a class="add-item" href="#"><i class="fa fa-shopping-cart"></i> Add to Cart</a></div>
+		{{#each pictures}}
+			<img src="{{.}}">
+		{{/each}}
+	{{/each}}
+	</div>
+</div>
+{{{item}}}
+<script src="/js/jquery-1.10.2.min.js"></script>

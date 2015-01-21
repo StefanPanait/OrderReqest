@@ -1,0 +1,117 @@
+<div class="approve-orders" ng-app="orderRequest">
+    <div ng-controller="ViewOrdersCtrl">
+        <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['main-notification']"></div>
+
+        <h4>Order status - [[selectedOrder.status]]</h4>
+
+
+        <ul class="nav nav-tabs" role="tablist" style="margin-bottom: 15px;">
+            <li class="active"><a href="#orderInfo" role="tab" data-toggle="tab">Summary</a>
+            </li>
+            <li><a href="#orderItems" role="tab" data-toggle="tab">Requested Items</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="orderInfo">
+                <form name="checkoutForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Date Created</label>
+                        <div class="controls">
+                            <p id="textRequestedDate" class="form-control-static col-sm-10">[[selectedOrder.dateCreated]]</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Issuer Name</label>
+                        <div class="controls">
+                            <p class="form-control-static col-sm-10">[[selectedOrder.issuer.firstName]] [[selectedOrder.issuer.lastName]] - [[selectedOrder.issuer.username]]</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Number of Items</label>
+                        <div class="controls">
+                            <p class="form-control-static col-sm-4">[[selectedOrder.totalItems]]</p>
+                        </div>
+                        <label class="col-sm-2 control-label">Total Price</label>
+                        <div class="controls">
+                            <p class="form-control-static col-sm-4">$ [[selectedOrder.totalPrice]]</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Current Workflow</label>
+                        <div class="controls">
+                            <p id="textRequestedDate" class="form-control-static col-sm-10">[[selectedOrder.workflow.name]]</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Issuer Note</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static col-sm-10">[[selectedOrder.note]]</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Approver Feedback</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="orderItems">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="table-responsive">
+                            <table class="table view-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Item
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Price
+                                        </th>
+                                        <th>
+                                            Quantity
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cartItem in selectedOrder.items">
+                                        <td>[[cartItem.name]]</td>
+                                        <td>[[cartItem.description]]</td>
+                                        <td>$[[cartItem.price]]</td>
+                                        <td>[[cartItem.quantity]]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-danger" ng-click="rejectOrder()">Reject</button>
+        <button type="button" class="btn btn-default" ng-click="reassignOrder()">Reassign</button>
+        <button type="button" class="btn btn-success" ng-click="approveOrder()">Approve</button>
+
+
+    </div>
+</div>
+
+
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="/js/angular-main.js"></script>
+<script src="/js/services/TableViewService.js"></script>
+<script src="/js/services/NotificationsService.js"></script>
+<script src="/js/controllers/ViewOrdersCtrl.js"></script>
+
+<script>
+var orders = "{{orders}}";
+</script>

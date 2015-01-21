@@ -1,0 +1,198 @@
+<div class="manage-accounts" ng-app="orderRequest">
+    <div ng-controller="AccountsCtrl">
+        <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['main-notification']"></div>
+        <div class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="navbar-brand">Accounts</div>
+                    <button type="button" data-target="#acctNavbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="acctNavbarCollapse">
+                    <div class="navbar-form navbar-right">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default active" ng-click="setTableData('currentAccounts')">
+                                <input type="radio">All
+                            </label>
+                            <label class="btn btn-default" ng-click="setTableData('pendingAccounts')">
+                                <input type="radio">Pending
+                                <span ng-show="pendingAccountsLength" class="badge">[[pendingAccountsLength]]</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-2" style="height: 1px;">
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</nav> -->
+
+        <div class="panel panel-default" ng-show="dataLength">
+            <!-- todo: panel background color #f5f5f5 -->
+            <div class="panel-heading" ng-show="selectedDisplay === 'currentAccounts'">
+                <!-- todo: full width for inline-form -->
+                <form class="form-inline" role="form">
+                    <div ng-repeat="name in ['main']" ng-include src="'/partials/tableView/search.html'"></div>
+                </form>
+            </div>
+            <div ng-repeat="name in ['main']" ng-include src="'/partials/tableView/table.html'"></div>
+        </div>
+        <!-- todo: Need proper "No Data Avabailable" Panel -->
+        <h1 ng-hide="dataLength">No Data Available</h1>
+
+        <!-- Modal form for approving account -->
+        <div id="account-approve-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['edit-notification']"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Approve Account</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="textPendingEmail" class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-10 controls">
+                                    <p id="textPendingEmail" class="form-control-static">[[selectedAccount.username]]</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="textPendingNote" class="col-sm-2 control-label">Note</label>
+                                <div class="col-sm-10 controls">
+                                    <p id="textPendingNote" class="form-control-static">[[selectedAccount.note]]</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" ng-click="rejectAccount()" ng-disabled="!selectedAccount">Reject</button>
+                        <button type="button" class="btn btn-success" ng-click="approveAccount()" ng-disabled="!selectedAccount">Approve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal form for edit account-->
+        <div id="account-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+
+            <div class="modal-dialog modal-lg">
+                <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['edit-notification']"></div>
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Account</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="textEmail" class="col-sm-2 control-label">Email</label>
+                                <div class="controls">
+                                    <p id="textEmail" class="form-control-static col-sm-10">[[selectedAccount.username]]</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputFirstName" class="col-sm-2 control-label">First Name</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="inputFirstName" placeholder="First Name" ng-model="selectedAccount.firstName">
+                                </div>
+                                <label for="inputLastName" class="col-sm-2 control-label">Last Name</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="inputLastName" placeholder="Last Name" ng-model="selectedAccount.lastName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="inputTitle" placeholder="Title" ng-model="selectedAccount.title">
+                                </div>
+                                <label for="selectGender" class="col-sm-2 control-label">Permission</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="selectedAccount.permissions">
+                                        <option value="General">General</option>
+                                        <option value="Approver">Approver</option>
+                                        <option value="Administrator">Administrator</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputAddress" placeholder="Address" ng-model="selectedAccount.profile.address">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputWorkNumber" class="col-sm-2 control-label">Work #</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="inputWorkNumber" placeholder="Work Number" ng-model="selectedAccount.profile.work_phone">
+                                </div>
+                                <label for="inputCellNumber" class="col-sm-2 control-label">Cell #</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="inputCellNumber" placeholder="Cell Number" ng-model="selectedAccount.profile.cell_phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="textCreatedDate" class="col-sm-2 control-label">Date Created</label>
+                                <div class="controls">
+                                    <p id="textCreatedDate" class="form-control-static col-sm-4">[[selectedAccount.dateCreated]]</p>
+                                </div>
+                                <label for="textRequestedDate" class="col-sm-2 control-label">Date Requested</label>
+                                <div class="controls">
+                                    <p id="textRequestedDate" class="form-control-static col-sm-4">[[selectedAccount.dateRequested]]</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- todo: remove modal-fotter margin top 15px -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteAccount()" ng-disabled="!selectedAccount">Delete</button>
+                        <button type="button" class="btn btn-primary" ng-click="updateAccount()" ng-disabled="!selectedAccount">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="/js/angular-main.js"></script>
+<script src="/js/services/TableViewService.js"></script>
+<script src="/js/services/NotificationsService.js"></script>
+<script src="/js/controllers/AccountsCtrl.js"></script>
+
+<script>
+var currentAccounts = "{{currentAccounts}}";
+var pendingAccounts = "{{pendingAccounts}}";
+</script>

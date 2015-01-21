@@ -1,0 +1,85 @@
+<div ng-app="orderRequest">
+    <div ng-controller="TicketsCtrl">
+        <div>
+            <!-- Fixed navbar -->
+            <div class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <a class="navbar-brand">Search Tickets</a>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a data-toggle="modal" data-target="#configure-columns-modal" href="#">
+                            Configure Columns
+                            <span class="glyphicon glyphicon-list"></span>                          
+                        </a>
+                        </li>
+                    </ul>
+
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input ng-change="updateFilterObject()" type="search" ng-model="filterText" class="form-control" id="filterText" placeholder="Search">
+                        </div>
+                        <div class="form-group">
+                            <select ng-click="updateFilterObject()" ng-model="filterBy" class="form-control">
+                                <option value="">All</option>
+                                <option ng-repeat="column in columns" ng-show="column.visible" value="[[column.name]]">[[column.display]]</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <table class="table table-striped table-hover view-table">
+                <thead>
+                    <tr>
+                        <th ng-class="{'multiple-sort': column.sortBy}" ng-show="column.visible" ng-repeat="column in columns" ng-click="sortBy(column)">
+                            [[column.display]]
+                            <span ng-show="isAscending(column)" class="glyphicon glyphicon-arrow-up"></span>
+                            <span ng-show="isDescending(column)" class="glyphicon glyphicon-arrow-down"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="ticket in tickets | orderBy:orderBy | filter:filterObject">
+                        <td ng-show="column.visible" ng-repeat="column in columns">[[ticket[column.name] ]]</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div id="configure-columns-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content container">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="column in columns">
+                                <td ng-click="column.visible = !column.visible">
+                                    <div class="checkbox">
+
+                                        <input ng-model="column.visible" type="checkbox" value="">[[column.display]]
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/angular-main.js"></script>
+<script src="/js/controllers/TicketsCtrl.js"></script>
+<link href='/css/styles.css' rel='stylesheet' type='text/css'>
+
+<script>
+var tickets = "{{data}}";
+</script>

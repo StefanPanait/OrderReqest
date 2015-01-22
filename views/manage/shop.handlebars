@@ -102,7 +102,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="inputitemFile">Image</label>
                                 <div class="col-sm-10">
-                                    <input type="file" id="inputitemFile" ng-model="selectedItem.picture">
+                                    <input type="file" id="inputitemFile" fileread="selectedItem.picture">
                                     <p class="help-block">Image size is 50px by 50px</p>
                                 </div>
                             </div>
@@ -156,6 +156,7 @@
 <script src="/js/services/NotificationsService.js"></script>
 <script src="/js/services/TableViewService.js"></script>
 <script src="/js/controllers/ShopCtrl.js"></script>
+<script src="/js/directives/fileread.js"></script>
 
 <script>
 var items = "{{dataItem}}";

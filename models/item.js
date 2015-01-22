@@ -9,7 +9,7 @@ var Item = new Schema({
     url: String,
     category: String,
     vendor: String,
-    pictures: [],
+    picture: String,
     dateAdded: {
         type: Date,
         default: Date.now
@@ -28,6 +28,7 @@ var create = function(req_obj, callback) {
     instance.url = req_obj.url;
     instance.category = req_obj.category;
     instance.vendor = req_obj.vendor;
+    instance.picture = req_obj.picture;
 
     instance.save(function(err, result) {
         callback(err, result);
@@ -54,7 +55,8 @@ var generateUpdateObject = function(req_obj) {
     if (req_obj.price) instance.price = req_obj.price;
     if (req_obj.category) instance.category = req_obj.category;
     if (req_obj.vendor) instance.vendor = req_obj.vendor;
-    
+    if (req_obj.picture) instance.picture = req_obj.picture;
+
     instance.url = req_obj.url;
     instance.description = req_obj.description;
 
@@ -64,13 +66,15 @@ var generateUpdateObject = function(req_obj) {
 }
 var queryByIDMany = function(query, callback) {
     tempItem.find({
-        'id': { $in: query}
-    }, null, {}, function(err, collection){
-         if (err) {
-                callback(err, null);
-            } else {
-                callback(null, collection);
-            }
+        'id': {
+            $in: query
+        }
+    }, null, {}, function(err, collection) {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, collection);
+        }
     });
 };
 var getCount = function(callback) {

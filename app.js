@@ -57,7 +57,11 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // Connect mongoose
-mongoose.connect('mongodb://localhost/orders');
+//LOCAL
+//mongoose.connect('mongodb://localhost/orders');
+//PROD
+mongoose.connect('mongodb://orderRequestAdmin:wtf4ndrei!@ds055680.mongolab.com:55680/order-request');
+
 // Setup routes
 require('./controller/routes')(app);
 

@@ -65,6 +65,6 @@ mongoose.connect('mongodb://orderRequestAdmin:wtf4ndrei!@ds055680.mongolab.com:5
 // Setup routes
 require('./controller/routes')(app);
 
-http.createServer(app).listen(3000, '0.0.0.0', function() {
-    console.log("Express server listening on %s:%d in %s mode", '127.0.0.1', 3000, app.settings.env);
+http.createServer(app).listen(process.env.PORT || 5000, function() {
+    console.log("choo choo");
 });

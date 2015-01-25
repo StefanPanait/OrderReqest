@@ -485,7 +485,9 @@ module.exports = function(app) {
         RequestAccount.findById(req.body._id, function(err, collection) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.send({
+                    error: err
+                });
                 return;
             } else {
                 dateRequested = collection.dateRequested;
@@ -498,7 +500,10 @@ module.exports = function(app) {
                 code,
                 function(err, result) {
                     if (err) {
-                        res.send(500);
+                        console.log(err);
+                        res.send({
+                            error: err
+                        });
                     } else {
                         console.log("trying to send mail");
                         mailOptions = utils.approveAccount(req.body.username, code);
@@ -508,13 +513,17 @@ module.exports = function(app) {
                             console.log(code);
                             if (err) {
                                 console.log(err);
-                                res.send(500);
+                                res.send({
+                                    error: err
+                                });
                             } else {
                                 console.log("sent mail apparently");
                                 RequestAccount.findByIdAndRemove(req.body._id, function(err) {
                                     if (err) {
                                         console.log(err);
-                                        res.send(500);
+                                        res.send({
+                                            error: err
+                                        });
                                     } else {
                                         var newAccount = result;
                                         res.send({

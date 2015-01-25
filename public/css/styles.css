@@ -150,6 +150,7 @@ img.stretch {
     position: relative;
     padding-bottom: 56.25%;
     /* 16:9 */
+    
     padding-top: 25px;
     height: 0;
 }
@@ -232,17 +233,14 @@ Manage Accounts
     border-width: 1px;
     padding: 10px;
 }
-
 /* custom css */
 
 .nav-item a {
     font-size: 16px;
 }
-
 .nav-item a i {
     margin-right: 15px;
 }
-
 .nav-header {
     color: #666;
     padding: 0 15px;
@@ -250,11 +248,29 @@ Manage Accounts
     line-height: 50px;
     font-size: 18px;
 }
-
 .thumbnail {
     height: 450px;
 }
-
 .thumbnail img {
     height: 300px;
+}
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+@-webkit-keyframes spin2 {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1) rotate(360deg);
+    }
 }

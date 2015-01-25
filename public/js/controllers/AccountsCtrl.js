@@ -5,8 +5,6 @@ angular.module('orderRequest')
 
             currentAccounts = JSON.parse(currentAccounts.replace(/&quot;/g, '"'));
             pendingAccounts = JSON.parse(pendingAccounts.replace(/&quot;/g, '"'));
-            console.log(currentAccounts);
-            console.log(pendingAccounts);
             var accounts = {
                 currentAccounts: currentAccounts,
                 pendingAccounts: pendingAccounts
@@ -16,6 +14,8 @@ angular.module('orderRequest')
             $scope.dataLength = accounts.currentAccounts.length;
             $scope.pendingAccountsLength = pendingAccounts.length;
             $scope.selectedDisplay = "currentAccounts";
+            $scope.isApproving = false;
+            $scope.approvalBtnLabel = 'Approve';
 
             if (pendingAccounts.length > 0) {
                 $scope.pendingAccountsAlert = true;
@@ -41,20 +41,24 @@ angular.module('orderRequest')
 
             //when modals are closed
             $('#account-edit-modal').on('hidden.bs.modal', function() {
-                var index = findCurrentAccountIndexById($scope.selectedAccount._id);
-                if (index !== -1) { //if the vendor exists
-                    $scope.$apply(function() { // refresh data
-                        currentAccounts[index].isSelected = false;
-                    });
+                if (($scope.selectedAccount) && ($scope.selectedAccount._id)) {
+                    var index = findCurrentAccountIndexById($scope.selectedAccount._id);
+                    if (index !== -1) { //if the vendor exists
+                        $scope.$apply(function() { // refresh data
+                            currentAccounts[index].isSelected = false;
+                        });
+                    }
                 }
                 $scope.selectedAccount = false;
             });
-            $('#waccount-approve-modal').on('hidden.bs.modal', function() {
-                var index = findPendingAccountIndexById($scope.selectedAccount._id);
-                if (index !== -1) { //if the vendor exists
-                    $scope.$apply(function() { // refresh data
-                        pendingAccounts[index].isSelected = false;
-                    });
+            $('#account-approve-modal').on('hidden.bs.modal', function() {
+                if (($scope.selectedAccount) && ($scope.selectedAccount._id)) {
+                    var index = findPendingAccountIndexById($scope.selectedAccount._id);
+                    if (index !== -1) { //if the vendor exists
+                        $scope.$apply(function() { // refresh data
+                            pendingAccounts[index].isSelected = false;
+                        });
+                    }
                 }
                 $scope.selectedWorkflow = false;
             });
@@ -71,7 +75,7 @@ angular.module('orderRequest')
             }
 
             function findPendingAccountIndexById(id) {
-                index = -1;
+                var index = -1;
                 for (var i = 0; i < pendingAccounts.length; i++) {
                     if (pendingAccounts[i]._id === id) {
                         index = i;
@@ -142,11 +146,14 @@ angular.module('orderRequest')
                         accounts[$scope.selectedDisplay][index] = $scope.selectedAccount;
                         $scope.notifications['main-notification'].setVisible(true);
                     });
-                    $('#checkout-modal').modal('hide');
+                    $('#account-edit-modal').modal('hide');
                 }
             }
 
             $scope.approveAccount = function() {
+                $scope.isApproving = true;
+                $scope.approvalBtnLabel = "Approving"
+
                 $.ajax({
                     type: "POST",
                     url: "/manage/accounts/approve",
@@ -155,17 +162,30 @@ angular.module('orderRequest')
                 });
 
                 function success(data) {
-                    var index = $scope.selectedAccount.index;
-                    $scope.notifications['edit-notification'].setMessage("Changes were successfully saved!");
-                    $scope.notifications['edit-notification'].setClass("alert-success");
+                    if (data.error) { //if error exists display message
+                        console.log(data.error.message);
+                        $scope.notifications['main-notification'].setMessage(data.error.message);
+                        $scope.notifications['main-notification'].setClass("alert-danger");
+                    } else {
 
+                        $scope.notifications['main-notification'].setMessage("Changes were successfully saved!");
+                        $scope.notifications['main-notification'].setClass("alert-success");
+
+                        $scope.$apply(function() { // refresh data
+                            accounts.currentAccounts.push(data.newAccount);
+                            accounts[$scope.selectedDisplay].splice(index, 1);
+                            $scope.pendingAccountsLength = pendingAccounts.length;
+                            var index = $scope.selectedAccount.index;
+                            $scope.selectedAccount = undefined;
+                        });
+                    }
                     $scope.$apply(function() { // refresh data
-                        accounts.currentAccounts.push(data.newAccount);
-                        accounts[$scope.selectedDisplay].splice(index, 1);
-                        $scope.notifications['edit-notification'].setVisible(true);
-                        $scope.pendingAccountsLength = pendingAccounts.length;
-                        $scope.selectedAccount = undefined;
+                        $scope.notifications['main-notification'].setVisible(true);
                     });
+                    $scope.isApproving = false;
+                    $scope.approvalBtnLabel = "Approve"
+
+                    $('#account-approve-modal').modal('hide');
                 }
             }
 
@@ -180,16 +200,18 @@ angular.module('orderRequest')
                 function success(status) {
                     var index = $scope.selectedAccount.index;
 
-                    $scope.notifications['edit-notification'].setMessage("Changes were successfully saved!");
-                    $scope.notifications['edit-notification'].setClass("alert-success");
+                    $scope.notifications['main-notification'].setMessage("Changes were successfully saved!");
+                    $scope.notifications['main-notification'].setClass("alert-success");
 
                     $scope.$apply(function() { // refresh data
                         accounts[$scope.selectedDisplay].splice(index, 1);
                         $scope.pendingAccountsLength = pendingAccounts.length;
-                        $scope.notifications['edit-notification'].setVisible(true);
+                        $scope.notifications['main-notification'].setVisible(true);
                         $scope.selectedAccount = undefined;
                     });
+                    $('#account-approve-modal').modal('hide');
                 }
+
             }
 
             $scope.deleteAccount = function() {
@@ -204,15 +226,16 @@ angular.module('orderRequest')
                 function success(status) {
                     var index = $scope.selectedAccount.index;
 
-                    $scope.notifications['edit-notification'].setMessage("Changes were successfully saved!");
-                    $scope.notifications['edit-notification'].setClass("alert-success");
+                    $scope.notifications['main-notification'].setMessage("Changes were successfully saved!");
+                    $scope.notifications['main-notification'].setClass("alert-success");
 
 
                     $scope.$apply(function() { // refresh data
                         accounts[$scope.selectedDisplay].splice(index, 1);
-                        $scope.notifications['edit-notification'].setVisible(true);
+                        $scope.notifications['main-notification'].setVisible(true);
                         $scope.selectedAccount = undefined;
                     });
+                    $('#account-edit-modal').modal('hide');
                 }
             }
         }

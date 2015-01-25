@@ -42,7 +42,7 @@
         <h1 ng-hide="dataLength">No Data Available</h1>
 
         <!-- Modal form for approving account -->
-        <div id="account-approve-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="account-approve-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
             <div class="modal-dialog modal-lg">
                 <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['edit-notification']"></div>
                 <div class="modal-content">
@@ -51,7 +51,7 @@
                             <span aria-hidden="true">&times;</span>
                             <span class="sr-only">Close</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Approve Account</h4>
+                        <h4 class="modal-title" id="myModalLabel">Pending Account</h4>
                     </div>
                     <div class="modal-body">
                         <form action="" class="form-horizontal">
@@ -70,9 +70,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-danger" ng-click="rejectAccount()" ng-disabled="!selectedAccount">Reject</button>
-                        <button type="button" class="btn btn-success" ng-click="approveAccount()" ng-disabled="!selectedAccount">Approve</button>
+                        <button type="button" class="btn btn-success" ng-click="approveAccount()" ng-disabled="!selectedAccount"><span  ng-class="{'glyphicon': isApproving, 'glyphicon-refresh': isApproving, 'glyphicon-refresh-animate': isApproving}"></span>[[approvalBtnLabel]]</button>
                     </div>
                 </div>
             </div>
@@ -154,7 +153,6 @@
                     </div>
                     <!-- todo: remove modal-fotter margin top 15px -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-danger" ng-click="deleteAccount()" ng-disabled="!selectedAccount">Delete</button>
                         <button type="button" class="btn btn-primary" ng-click="updateAccount()" ng-disabled="!selectedAccount">Save</button>
                     </div>
@@ -166,7 +164,6 @@
 
 <script src="/js/lib/jquery.min.js"></script>
 <script src="/js/lib/angular.min.js"></script>
-<script src="/js/lib/bootstrap.min.js"></script>
 
 <script src="/js/angular-main.js"></script>
 <script src="/js/services/TableViewService.js"></script>

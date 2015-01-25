@@ -1,13 +1,14 @@
 var mongoose = require('mongoose'),
     passportLocalMongoose = require('passport-local-mongoose'),
-    utils = require("../utils/utility").utils,
+    utils = require("../utils/utility"),
     moment = require("moment"),
     Schema = mongoose.Schema;
 
 var Account = new Schema({
     id: String,
-    firstName: String, //self explanatory
-    lastName: String, //self explanatory
+    firstName: String,
+    lastName: String,
+    username: String,
     position: String, //position may be positionID, if scaled
     title: String, //title may be positionID, if scaled
     permissions: {
@@ -83,6 +84,8 @@ var addNotifications = function(req_obj, mongo_obj, callback) {
 var resetPass = function(mongo_obj, callback) {
     var code = utils.makeId(25);
     var instance = mongo_obj;
+
+    instance.forgotPass = {};
     instance.forgotPass.token = code;
     instance.forgotPass.validDate = new Date().addHours(24);
     instance.forgotPass.used = false;

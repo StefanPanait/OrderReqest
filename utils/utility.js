@@ -1,6 +1,12 @@
 var passport = require("passport"),
     nodemailer = require("nodemailer"),
     utils = require('./utility');
+
+
+
+
+
+
 utils.makeId = function(len) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -46,7 +52,7 @@ utils.getExtension = function(filename) {
 
 utils.forgotPass = function(email, code) {
     var mailOptions = {
-        from: "Robin Tang <tang8330@mylaurier.ca>", // sender address
+        from: "Order Rquest <orderr3quest@gmail.com>", // sender address
         to: email,
         subject: "Forgot Password", // Subject line
         text: "Forgot Password", // plaintext body
@@ -57,7 +63,7 @@ utils.forgotPass = function(email, code) {
 
 utils.approveAccount = function(email, code) {
     var mailOptions = {
-        from: "Robin Tang <tang8330@mylaurier.ca>", // sender address
+        from: "Order Rquest <orderr3quest@gmail.com>", // sender address
         to: email,
         subject: "Reset Account", // Subject line
         text: "Reset Account", // plaintext body
@@ -66,11 +72,11 @@ utils.approveAccount = function(email, code) {
     return mailOptions;
 };
 
-utils.smtpTransport = nodemailer.createTransport("SMTP", {
+utils.smtpTransport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "tang8330@mylaurier.ca",
-        pass: "robino68"
+        user: "orderr3quest@gmail.com",
+        pass: "orderr3quest888377"
     }
 });
 

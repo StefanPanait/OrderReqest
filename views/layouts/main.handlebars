@@ -1,18 +1,19 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Order Request</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Order Request Team">
-    <script data-main="/js/config" src="/js/require.min.js"></script>
     <link id="page_favicon" href="/img/fav.ico" rel="icon" type="image/x-icon">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href='/css/styles.css' rel='stylesheet' type='text/css'>
     <link href="/css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 </head>
+
 <body>
     {{#if user}}
     <div id="wrapper">
@@ -81,7 +82,7 @@
                 <ul class="nav navbar-nav navbar-right navbar-user">
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell"></i> 
+                            <i class="fa fa-bell"></i>
                             <span class="badge">{{user.notifications.length}}</span>
                             <b class="caret"></b>
                         </a>
@@ -140,10 +141,6 @@
         <div id="page-wrapper">
             <div>
                 <div>
-                    <script>
-                        require(['lib/jquery.min', 'lib/bootstrap.min', 'utility'], function(jquery, bootstrap, utility) {
-                        });
-                    </script>
                     {{#if alert}}
                     <div class="alert {{alert.type}} alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('orderRequest', ['ui.bootstrap'], function($interpolateProvider) {
+angular.module('orderRequest', [], function($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
-
 });

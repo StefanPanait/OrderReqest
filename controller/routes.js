@@ -201,6 +201,10 @@ module.exports = function(app) {
             user: req.user
         });
     });
+    app.post('/login', passport.authenticate('local', { //TODO: this needs to display a message on failed login
+        successRedirect: '/',
+        failureRedirect: '/login/error',
+    }));
 
     app.get('/setupPushToken', function(req, res) {
         console.log("getting page");
@@ -225,10 +229,7 @@ module.exports = function(app) {
         );
     });
 
-    app.post('/login', passport.authenticate('local', { //TODO: this needs to display a message on failed login
-        successRedirect: '/',
-        failureRedirect: '/login/error',
-    }));
+
 
     app.get("/privacy", function(req, res) {
         res.render("legal/privacy", {
@@ -253,17 +254,21 @@ module.exports = function(app) {
             user: req.user
         });
     });
-    app.post('/requestAccount', function(req, res) {
-        console.log("right path");
+    app.post('/requestAccount', function(req, res, next) {
         RequestAccount.create(req.body, function(err) {
             if (err) res.send(500);
-            else res.render('user/requestAccount', {
-                user: req.user,
-                alert: {
-                    msg: "Request Submitted",
-                    type: "alert-success"
+            else {
+                if (req.username = "orderr3quest@gmail.com") {
+                    res.redirect('/manage/accounts');
                 }
-            });
+                res.render('user/requestAccount', {
+                    user: req.user,
+                    alert: {
+                        msg: "Request Submitted",
+                        type: "alert-success"
+                    }
+                });
+            }
         });
     });
 
@@ -474,6 +479,7 @@ module.exports = function(app) {
         );
     });
     app.post("/manage/accounts/approve", function(req, res) {
+        console.log("approving account");
         var code = utils.makeId(5); //temp password
         var dateRequested = "";
         RequestAccount.findById(req.body._id, function(err, collection) {
@@ -497,13 +503,14 @@ module.exports = function(app) {
                         console.log("trying to send mail");
                         mailOptions = utils.approveAccount(req.body.username, code);
                         console.log("please");
-                        utils.smtpTransport.sendMail(err, function(mailError, response) {
-                            console.log("sent mail apparently");
+                        utils.smtpTransport.sendMail(mailOptions, function(err, response) {
+
                             console.log(code);
                             if (err) {
                                 console.log(err);
                                 res.send(500);
                             } else {
+                                console.log("sent mail apparently");
                                 RequestAccount.findByIdAndRemove(req.body._id, function(err) {
                                     if (err) {
                                         console.log(err);

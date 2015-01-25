@@ -88,7 +88,6 @@ angular.module('orderRequest')
                 if ($scope.selectedDisplay === "currentAccounts") {
                     $scope.selectedAccount = jQuery.extend(true, {}, selectedRow); //deep copy selectedAccount
                     $('#account-edit-modal').modal('show'); //display modal
-
                 } else {
                     $scope.selectedAccount = selectedRow;
                     $('#account-approve-modal').modal('show'); //display modal

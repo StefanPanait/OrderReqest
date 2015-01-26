@@ -97,7 +97,6 @@ angular.module('orderRequest')
             }
 
             $scope.addSelectedContact = function(isValid) {
-                console.log(isValid);
                 $scope.formSubmitted = true;
                 if (isValid) {
                     var foundselectedContact = false;
@@ -124,17 +123,30 @@ angular.module('orderRequest')
             }
 
             $scope.saveSelectedContact = function(isValid) {
+                console.log($scope.selectedContact);
+                console.log(isValid);
                 $scope.formSubmitted = true;
                 if (isValid) {
-                    for (var i = 0; i < $scope.selectedVendor.contacts.length; i++) {
-                        if ($scope.selectedVendor.contacts[i].email === $scope.selectedContact.email) {
-                            $scope.selectedVendor.contacts[i] = $scope.selectedContact;
-                            $scope.cancelSelectedContact($scope.selectedVendor.contacts[i]);
-                            return;
-                        }
-                    }
+                    var i = getContactIndexByHashKey($scope.selectedContact.$$hashKey);
+                    $scope.selectedVendor.contacts[i] = $scope.selectedContact;
+                    //alert user
+                    $scope.notifications['modal-notification'].setMessage("Contact: " + $scope.selectedContact.name + " with email: " + $scope.selectedContact.email + " was successfully saved.");
+                    $scope.notifications['modal-notification'].setClass('alert-success');
+                    $scope.notifications['modal-notification'].setVisible(true);
+                    $scope.cancelSelectedContact();
                 }
+            }
 
+            function getContactIndexByHashKey(key) {
+                var i;
+                $scope.selectedVendor.contacts.forEach(function(element, index, array) {
+                    console.log(key);
+                    console.log(element.$$hashKey);
+                    if (element.$$hashKey === key) {
+                        i = index;
+                    }
+                });
+                return i;
             }
 
             $scope.removeSelectedContact = function() {
@@ -157,11 +169,18 @@ angular.module('orderRequest')
                 $scope.states.editingContact = false;
             }
 
-            $scope.cancelSelectedContact = function(selectedContact) {
+            //clear form and selection
+            $scope.cancelSelectedContact = function() {
                 $scope.formSubmitted = false;
-                selectedContact.isSelected = false;
                 $scope.states.editingContact = false;
                 $scope.selectedContact = {};
+                deselectAllVendorContacts();
+            }
+
+            function deselectAllVendorContacts() {
+                $scope.selectedVendor.contacts.forEach(function(element, index, array) {
+                    element.isSelected = false;
+                });
             }
 
             function onClickContactRow(selectedContact) {
@@ -212,7 +231,12 @@ angular.module('orderRequest')
                     });
                 }
             }
-            $scope.updateVendor = function() {
+            $scope.updateVendor = function(isValid) {
+                $scope.formSubmitted = true;
+                if (!isValid) {
+                    return;
+                }
+                $scope.formSubmitted = false;
                 $.ajax({
                     type: "POST",
                     url: "/manage/vendors/update",

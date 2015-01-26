@@ -44,10 +44,10 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button class="btn btn-danger btn-md" ng-click="removeSelectedContact(selectedContact)" ng-show="editingContact">Remove</button>
-                    <button class="btn btn-primary btn-md" ng-click="cancelSelectedContact(selectedContact)" ng-show="editingContact">Cancel</button>
-                    <button class="btn btn-primary btn-md" ng-click="addSelectedContact(createVdrContactForm.$valid, selectedContact)" ng-show="!editingContact">Add</button>
-                    <button class="btn btn-primary btn-md" ng-click="saveSelectedContact(selectedContact)" ng-show="editingContact">Save</button>
+                    <button class="btn btn-danger btn-md" ng-click="removeSelectedContact()" ng-show="states.editingContact">Remove</button>
+                    <button class="btn btn-primary btn-md" ng-click="cancelSelectedContact()" ng-show="states.editingContact">Cancel</button>
+                    <button class="btn btn-primary btn-md" ng-click="addSelectedContact(createVdrContactForm.$valid)" ng-show="!states.editingContact">Add</button>
+                    <button class="btn btn-primary btn-md" ng-click="saveSelectedContact(createVdrContactForm.$valid)" ng-show="states.editingContact">Save</button>
                 </div>
             </div>
             <hr ng-show="selectedVendor.contacts.length > 0">

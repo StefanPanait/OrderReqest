@@ -65,9 +65,8 @@ utils.approveAccount = function(email, code) {
     var mailOptions = {
         from: "Order Rquest <orderr3quest@gmail.com>", // sender address
         to: email,
-        subject: "Reset Account", // Subject line
-        text: "Reset Account", // plaintext body
-        html: "<b>Reset Account, your password is " + code + "</b>" // html body
+        subject: "Order Request Account Approved", // Subject line
+        html: "<h1>Welcome to Order Request!</h1> < p > Your password is: < b > " + code + " < /b>" // html body
     };
     return mailOptions;
 };

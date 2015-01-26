@@ -25,7 +25,7 @@
         </div>
 
         <!-- Modal create form -->
-        <div id="vendor-create-form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="vendor-create-form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
             <div class="modal-dialog modal-lg">
                 <!-- modal notificaiton -->
                 <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['modal-notification']"></div>
@@ -35,7 +35,7 @@
         </div>
 
         <!-- Modal edit form -->
-        <div id="vendor-edit-form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="vendor-edit-form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
             <div class="modal-dialog modal-lg">
                 <!-- Modal notificaiton -->
                 <div ng-include src="'/partials/notification.html'" ng-repeat="name in ['modal-notification']"></div>
@@ -128,7 +128,7 @@
                                             <button class="btn btn-danger btn-md" ng-click="removeSelectedContact()" ng-show="states.editingContact">Remove</button>
                                             <button class="btn btn-primary btn-md" ng-click="cancelSelectedContact()" ng-show="states.editingContact">Cancel</button>
                                             <button class="btn btn-primary btn-md" ng-click="addSelectedContact(editVdrContactForm.$valid)" ng-show="!states.editingContact">Add</button>
-                                            <button class="btn btn-primary btn-md" ng-click="saveSelectedContact()" ng-show="states.editingContact">Save</button>
+                                            <button class="btn btn-primary btn-md" ng-click="saveSelectedContact(editVdrContactForm.$valid)" ng-show="states.editingContact">Save</button>
                                         </div>
                                     </div>
                                     <hr ng-show="selectedVendor.contacts.length > 0">
@@ -142,7 +142,7 @@
                     <!-- todo: remove modal-fotter margin top 15px -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" ng-click="deleteVendor()">Delete</button>
-                        <button type="button" class="btn btn-primary" ng-click="updateVendor()">Save</button>
+                        <button type="button" class="btn btn-primary" ng-click="updateVendor(editVdrInfoForm.$valid)">Save</button>
                     </div>
                 </div>
             </div>

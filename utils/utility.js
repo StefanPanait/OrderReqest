@@ -67,7 +67,7 @@ utils.approveAccount = function(email, code) {
         from: "Order Rquest <orderr3quest@gmail.com>", // sender address
         to: email,
         subject: "Order Request Account Approved", // Subject line
-        html: "<h1>Welcome to Order Request!</h1> < p > Your password is: < b > " + code + " < /b>" // html body
+        html: "<h1>Welcome to Order Request!</h1> <p> Your password is: <b> " + code + " </b>" // html body
     };
     return mailOptions;
 };

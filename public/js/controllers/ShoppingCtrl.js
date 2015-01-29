@@ -4,8 +4,6 @@ angular.module('orderRequest')
             //data expected
             items = items.replace(/&quot;/g, '"');
             items = JSON.parse(items);
-            console.log(items);
-            console.log(items[0].picture);
             categories = categories.replace(/&quot;/g, '"');
             categories = JSON.parse(categories);
             workflows = workflows.replace(/&quot;/g, '"');

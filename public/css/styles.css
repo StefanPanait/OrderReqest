@@ -274,3 +274,8 @@ Manage Accounts
         transform: scale(1) rotate(360deg);
     }
 }
+.product-title {
+
+    color: white !important;
+    font-size: 26px !important;
+}

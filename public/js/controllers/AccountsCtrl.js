@@ -2,7 +2,7 @@
 angular.module('orderRequest')
     .controller("AccountsCtrl", ['$scope', 'tableView', 'notifications',
         function($scope, tableView, notifications) {
-
+            $scope.isAdmin = userPermissions === "Administrator" ? true : false
             currentAccounts = JSON.parse(currentAccounts.replace(/&quot;/g, '"'));
             pendingAccounts = JSON.parse(pendingAccounts.replace(/&quot;/g, '"'));
             var accounts = {

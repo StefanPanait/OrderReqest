@@ -55,6 +55,7 @@ module.exports = function(app) {
     //ROOT
     app.get('/', utils.ensureAuthenticated, function(req, res) {
         if (req.user.permissions == "Administrator") {
+            req.user.isAdmin = true;
             //pull from request accounts, items, orders, and workflows
             RequestAccount.getCount(function(err, reqNumber) {
                 if (err) res.send(500);

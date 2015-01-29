@@ -71,7 +71,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" ng-click="rejectAccount()" ng-disabled="!selectedAccount">Reject</button>
-                        <button type="button" class="btn btn-success" ng-click="approveAccount()" ng-disabled="!selectedAccount"><span  ng-class="{'glyphicon': isApproving, 'glyphicon-refresh': isApproving, 'glyphicon-refresh-animate': isApproving}"></span>[[approvalBtnLabel]]</button>
+                        <button type="button" class="btn btn-success" ng-click="approveAccount()" ng-disabled="!selectedAccount"><span ng-class="{'glyphicon': isApproving, 'glyphicon-refresh': isApproving, 'glyphicon-refresh-animate': isApproving}"></span>[[approvalBtnLabel]]</button>
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                                 </div>
                                 <label for="selectGender" class="col-sm-2 control-label">Permission</label>
                                 <div class="col-sm-2">
-                                    <select class="form-control" ng-model="selectedAccount.permissions">
+                                    <select class="form-control" ng-model="selectedAccount.permissions" ng-disabled="!isAdmin">
                                         <option value="General">General</option>
                                         <option value="Approver">Approver</option>
                                         <option value="Administrator">Administrator</option>
@@ -173,4 +173,5 @@
 <script>
 var currentAccounts = "{{currentAccounts}}";
 var pendingAccounts = "{{pendingAccounts}}";
+var userPermissions = "{{user.permissions}}"
 </script>

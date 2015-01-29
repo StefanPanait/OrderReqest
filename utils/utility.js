@@ -40,6 +40,7 @@ utils.ensureAdmin = function(req, res, next) {
 
 utils.ensureAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) {
+        if (req.user.permissions === "Administrator") req.user.isAdmin = true;
         return next();
     }
     res.redirect('/login');

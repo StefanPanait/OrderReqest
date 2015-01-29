@@ -741,7 +741,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.get("/orders", function(req, res) {
+    app.get("/orders", utils.ensureAuthenticated, function(req, res) {
         Order.findAll(function(err, collection) {
             if (err) {
                 res.send(500);

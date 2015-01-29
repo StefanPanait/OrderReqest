@@ -10,5 +10,4 @@ Webservice designed to digitize and simplify purchases for companies.
 
 
 ### Admin Account ###
-username: orderr3quest@gmail.com
-password: asd
+orderr3quest@gmail.com / asd

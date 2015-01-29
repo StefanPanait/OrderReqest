@@ -55,7 +55,6 @@ module.exports = function(app) {
     //ROOT
     app.get('/', utils.ensureAuthenticated, function(req, res) {
         if (req.user.permissions == "Administrator") {
-            req.user.isAdmin = true;
             //pull from request accounts, items, orders, and workflows
             RequestAccount.getCount(function(err, reqNumber) {
                 if (err) res.send(500);
@@ -421,7 +420,7 @@ module.exports = function(app) {
 
     //SIDE NAV: MANAGE
     //, utils.ensureApprover    
-    app.get("/manage/accounts", function(req, res) {
+    app.get("/manage/accounts", utils.ensureAuthenticated, function(req, res) {
         Account.findAll(function(err, currentAccounts) {
             if (err) res.send(500);
             else {
@@ -549,7 +548,7 @@ module.exports = function(app) {
     });
 
     //Manage/Vendors
-    app.get("/manage/vendors", function(req, res) {
+    app.get("/manage/vendors", utils.ensureAuthenticated, function(req, res) {
         Vendor.findAll(function(err, collection) {
             if (err) res.send(500);
             else {
@@ -590,7 +589,7 @@ module.exports = function(app) {
         });
     });
 
-    app.get("/manage/shop", function(req, res) {
+    app.get("/manage/shop", utils.ensureAuthenticated, function(req, res) {
         Item.findAll(function(err, collectionItem) {
             if (err) res.send(500);
             else {
@@ -678,7 +677,7 @@ module.exports = function(app) {
         });
     });
     //manage/workflow
-    app.get("/manage/workflows", function(req, res) {
+    app.get("/manage/workflows", utils.ensureAuthenticated, function(req, res) {
         Workflow.findAll(function(err, collectionWF) {
             if (err) res.send(500);
             else {

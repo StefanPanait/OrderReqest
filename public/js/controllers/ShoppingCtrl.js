@@ -16,7 +16,7 @@ angular.module('orderRequest')
             $scope.categories = categories;
 
             // setting
-            $scope.selectedCategory = $scope.categories[0].name;
+            if ($scope.categories.length > 0) $scope.selectedCategory = $scope.categories[0].name;
             $scope.orderBy = "price";
             $scope.cart = [];
 

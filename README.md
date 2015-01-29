@@ -1,14 +1,14 @@
 # Order Request#
 
-Webservice designed to simplify and improve purchases for companies.
+Webservice designed to digitize and simplify purchases for companies.
 
 ### Current Stack ###
 * Nodejs
-* MonogoDB
-* Mongoose
+* MonogoDB w/ Mongoose
 * Angular
-* momentJS
-* Express - providing the middleware controller
-* Handlebars - page rendering
-* NodeMailer - send transaction-based emails
+* Express
 
+
+### Admin Account ###
+orderr3quest@gmail.com
+asd

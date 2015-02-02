@@ -65,12 +65,20 @@ module.exports = function(app) {
                             Item.getCount(function(err2, itemNumber) {
                                 if (err) res.send(500);
                                 else {
-                                    res.render("admin/admin/main", {
-                                        user: req.user,
-                                        reqNumber: reqNumber,
-                                        wfNumber: wfNumber,
-                                        itemNumber: itemNumber
-                                    });
+                                    Order.getCount(function(err, numberOfOrders) {
+                                        if (err) {
+                                            console.log(err);
+                                            res.send(err);
+                                        } else {
+                                            res.render("admin/admin/main", {
+                                                user: req.user,
+                                                reqNumber: reqNumber,
+                                                wfNumber: wfNumber,
+                                                itemNumber: itemNumber,
+                                                numberOfOrders: numberOfOrders
+                                            });
+                                        }
+                                    })
                                 }
                             });
                         }

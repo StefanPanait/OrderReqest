@@ -52,15 +52,12 @@ var generateUpdateObject = function(req_obj) {
     var instance = {};
 
     if (req_obj.name) instance.name = req_obj.name;
+    if (req_obj.description) instance.description = req_obj.description
     if (req_obj.price) instance.price = req_obj.price;
+    if (req_obj.url) instance.url = req_obj.url;
     if (req_obj.category) instance.category = req_obj.category;
     if (req_obj.vendor) instance.vendor = req_obj.vendor;
     if (req_obj.picture) instance.picture = req_obj.picture;
-
-    instance.url = req_obj.url;
-    instance.description = req_obj.description;
-
-    console.log(instance);
 
     return instance;
 }

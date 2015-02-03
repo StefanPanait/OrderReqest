@@ -13,6 +13,7 @@
         "passport-local": "latest",
         "mkdirp": "latest",
         "nodemailer": "latest",
-        "moment": "latest"
+        "moment": "latest",
+        "newrelic": "latest"
     }
 }

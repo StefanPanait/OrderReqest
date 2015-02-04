@@ -734,6 +734,13 @@ module.exports = function(app) {
         });
     });
 
+    //manage/monitor
+    app.get("/manage/monitor", utils.ensureAuthenticated, function(req, res) {
+        res.render("manage/monitor", {
+            user: req.user,
+        });
+    });
+
 
     //ORDERS
     app.get("/orders/mobile", function(req, res) {
